@@ -1,0 +1,19 @@
+# Node
+node_modules
+.next/
+out/
+
+# Python
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.env
+.DS_Store
+.vscode/
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+*.log

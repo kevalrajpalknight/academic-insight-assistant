@@ -64,7 +64,7 @@ Follow these steps to set up and run the Academic Insight Assistant locally.
 
 1.  **Clone the Repository:**
     ```bash
-    git clone [https://github.com/kevalrajpalknight/academic-insight-assistant.git](https://github.com/kevalrajpalknight/academic-insight-assistant.git)
+    git clone https://github.com/kevalrajpalknight/academic-insight-assistant.git
     cd academic-insight-assistant
     ```
 

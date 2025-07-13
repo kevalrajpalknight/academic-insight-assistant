@@ -11,14 +11,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5433:5432"
     restart: unless-stopped
   chromadb:
     image: ghcr.io/chroma-core/chroma:latest
     container_name: chromadb_server
-    environment:
-      # Optional: set persistence directory within the container if needed
-      # CHROMA_SERVER_NO_COPY_WARNING: "true"
+    env_file:
+      - .env
     volumes:
       - chromadb_data:/app/chroma
     ports:

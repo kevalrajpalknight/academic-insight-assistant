@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+  chromadb:
+    image: ghcr.io/chroma-core/chroma:latest
+    container_name: chromadb_server
+    environment:
+      # Optional: set persistence directory within the container if needed
+      # CHROMA_SERVER_NO_COPY_WARNING: "true"
+    volumes:
+      - chromadb_data:/app/chroma
+    ports:
+      - "8000:8000" # ChromaDB's default port
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama
+    container_name: ollama_server
+    volumes:
+      - ollama_models:/root/.ollama
+    ports:
+      - "11434:11434" # Ollama's default port
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  chromadb_data:
+  ollama_models:

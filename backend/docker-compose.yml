@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   db:
@@ -13,6 +13,12 @@ services:
     ports:
       - "5433:5432"
     restart: unless-stopped
+    deploy: # Added deploy section for consistency and control
+      resources:
+        limits:
+          memory: 512m # PostgreSQL can run with less for light usage, 512MB
+          cpus: "0.5" # Half a CPU core
+
   chromadb:
     image: ghcr.io/chroma-core/chroma:latest
     container_name: chromadb_server
@@ -23,6 +29,14 @@ services:
     ports:
       - "8000:8000" # ChromaDB's default port
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          # ChromaDB can be memory-intensive depending on vector count.
+          # Starting very low due to your system's limitations.
+          # Increase if you hit OOM errors or performance issues, but this will quickly hit your RAM limit.
+          memory: 768m # 768MB, bare minimum for light ChromaDB usage
+          cpus: "1" # One CPU core
 
   ollama:
     image: ollama/ollama
@@ -32,6 +46,12 @@ services:
     ports:
       - "11434:11434" # Ollama's default port
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 5G # Allocate 8 GB of memory
+          cpus: "2" # Allocate 2 CPUs
+    command: ["serve"] # Default command for Ollama to run as a server
 
 volumes:
   postgres_data:
